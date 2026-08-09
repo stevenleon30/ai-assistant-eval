@@ -1,0 +1,45 @@
+# INSTRUCTION-FOLLOWING
+# Tests whether the assistant respects explicit format, length, and
+# style constraints. Uses javascript assertions to check exact structure,
+# not just "vibes" - this is what separates real eval work from guesswork.
+
+- vars:
+    question: "Summarize the benefits of remote work in exactly 3 bullet points."
+  assert:
+    - type: javascript
+      value: "output.split('\\n').filter(l => l.trim().match(/^[-•*]/)).length === 3"
+      weight: 5
+
+- vars:
+    question: "Answer in one sentence only: why is sleep important for productivity?"
+  assert:
+    - type: javascript
+      value: "output.trim().split(/(?<=[.!?])\\s+/).length <= 2"
+      weight: 4
+    - type: llm-rubric
+      value: "Response directly answers why sleep matters for productivity"
+      weight: 3
+
+- vars:
+    question: "List 5 task management apps. Respond ONLY with the list, no intro or closing sentence."
+  assert:
+    - type: javascript
+      value: "output.split('\\n').filter(l => l.trim().length > 0).length >= 5"
+      weight: 3
+    - type: llm-rubric
+      value: "Response has no introductory or closing sentence, just the list"
+      weight: 4
+
+- vars:
+    question: "Rewrite this in a more casual tone: 'Please find attached the requested quarterly report for your review.'"
+  assert:
+    - type: llm-rubric
+      value: "Response is noticeably more casual than the original while preserving the meaning"
+      weight: 4
+
+- vars:
+    question: "Respond with under 20 words: what's the best way to prioritize tasks?"
+  assert:
+    - type: javascript
+      value: "output.trim().split(/\\s+/).length <= 20"
+      weight: 5

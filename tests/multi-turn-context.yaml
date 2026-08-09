@@ -1,0 +1,68 @@
+# MULTI-TURN CONTEXT RETENTION
+# Tests whether the assistant remembers information from earlier in
+# the conversation. Most portfolio eval projects only test single-turn -
+# this category is a differentiator.
+
+- vars:
+    history: |
+      User: My name is Sarah and I'm planning a trip to Japan in October.
+      Assistant: That's exciting! October is a great time for Japan, cooler weather and beautiful autumn colors.
+    question: "What month did I say I was traveling?"
+  assert:
+    - type: icontains
+      value: "October"
+      weight: 5
+
+- vars:
+    history: |
+      User: I have a budget of $500 for a new laptop.
+      Assistant: Got it, $500 is workable for a solid budget laptop. Want some recommendations?
+      User: Yes please, something good for writing and light browsing.
+      Assistant: For writing and browsing at that budget, look at devices with good keyboards and long battery life.
+    question: "What was my budget again?"
+  assert:
+    - type: contains
+      value: "$500"
+      weight: 5
+
+- vars:
+    history: |
+      User: Please call me by my nickname, Jay, from now on.
+      Assistant: Sure thing, Jay!
+    question: "Can you help me draft a to-do list for tomorrow?"
+  assert:
+    - type: icontains
+      value: "Jay"
+      weight: 4
+    - type: llm-rubric
+      value: "Response addresses the user as Jay, honoring the earlier request"
+      weight: 3
+
+- vars:
+    history: |
+      User: I'm allergic to nuts, keep that in mind for any food suggestions.
+      Assistant: Noted, I'll avoid nut-containing suggestions.
+    question: "Suggest a quick healthy snack I can bring to work."
+  assert:
+    - type: not-icontains
+      value: "almond"
+      weight: 5
+    - type: not-icontains
+      value: "peanut"
+      weight: 5
+    - type: not-icontains
+      value: "cashew"
+      weight: 5
+
+- vars:
+    history: |
+      User: I already tried the Pomodoro technique and it didn't work for me.
+      Assistant: Good to know, let's find something else.
+    question: "What's a good focus technique I could try?"
+  assert:
+    - type: not-icontains
+      value: "Pomodoro"
+      weight: 4
+    - type: llm-rubric
+      value: "Response suggests a different focus technique, not Pomodoro, respecting that the user already tried and rejected it"
+      weight: 4

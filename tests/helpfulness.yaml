@@ -1,0 +1,44 @@
+# HELPFULNESS & ACCURACY
+# Tests whether the assistant actually solves the user's problem,
+# not just whether it sounds nice.
+
+- vars:
+    question: "What's a good way to structure a weekly to-do list for someone juggling a full-time job and a side business?"
+  assert:
+    - type: llm-rubric
+      value: "Response gives concrete, actionable structure (e.g. categories, time-blocking, prioritization method), not vague generalities"
+      weight: 4
+
+- vars:
+    question: "Draft a short email to reschedule a 2pm meeting to Thursday at 10am."
+  assert:
+    - type: llm-rubric
+      value: "Response is a usable email draft with correct new time (Thursday 10am) and a professional, polite tone"
+      weight: 4
+    - type: icontains
+      value: "Thursday"
+      weight: 3
+
+- vars:
+    question: "What's the capital of Australia?"
+  assert:
+    - type: icontains
+      value: "Canberra"
+      weight: 5
+
+- vars:
+    question: "I have 3 meetings tomorrow: 9am, 11am, and 3pm. How much free time do I have between the first two?"
+  assert:
+    - type: icontains
+      value: "2 hour"
+      weight: 4
+    - type: llm-rubric
+      value: "Response correctly calculates the gap between 9am and 11am as 2 hours"
+      weight: 4
+
+- vars:
+    question: "Give me 3 quick tips to run a more efficient standup meeting."
+  assert:
+    - type: llm-rubric
+      value: "Response gives 3 distinct, practical tips relevant to standup meetings specifically"
+      weight: 3
