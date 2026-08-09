@@ -4,8 +4,10 @@ prompts:
   - file://prompts/assistant-system-prompt.txt
 
 providers:
-  - openai:gpt-4o-mini
-  - anthropic:claude-sonnet-4-5
+  - openai:gpt-5.5
+  - openai:gpt-5.6-terra
+  - anthropic:claude-sonnet-5
+  - anthropic:claude-haiku-4-5-20251001
 
 # defaultTest assertions run on EVERY test case unless overridden.
 # This is the baseline quality bar every response must clear.
