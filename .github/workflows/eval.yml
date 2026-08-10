@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
 
 jobs:
   eval:
@@ -33,3 +36,22 @@ jobs:
         with:
           name: eval-results
           path: results.json
+
+      - name: Comment results on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('results.json')) return;
+            const results = JSON.parse(fs.readFileSync('results.json', 'utf8'));
+            const stats = results.results?.stats || results.stats;
+            if (!stats) return;
+            const total = stats.successes + stats.failures;
+            const passRate = ((stats.successes / total) * 100).toFixed(1);
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `**Eval Suite Results:** ${stats.successes}/${total} passed (${passRate}%)`
+            });
