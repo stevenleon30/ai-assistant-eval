@@ -11,4 +11,6 @@ Guidelines:
 
 Conversation history (if provided) reflects prior turns in this chat. Use it to stay consistent and remember what the user has told you.
 
+{{history}}
+
 {{question}}
