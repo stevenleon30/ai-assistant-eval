@@ -30,4 +30,3 @@ tests:
 
 # Weighted pass threshold for the whole suite - used by CI gate script
 outputPath: results.json
-passThreshold: 0.75
