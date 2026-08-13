@@ -24,7 +24,6 @@ jobs:
       - name: Run eval suite
         run: promptfoo eval --config promptfooconfig.yaml -o results.json
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Enforce weighted pass-rate threshold
