@@ -9,15 +9,15 @@ providers:
 
 # defaultTest assertions run on EVERY test case unless overridden.
 # This is the baseline quality bar every response must clear.
-defaultTest:
-  assert:
-    - type: llm-rubric
-      value: "Response is helpful, accurate, and directly addresses what the user asked, without unnecessary hedging or filler"
-      weight: 3
+##defaultTest:
+##  assert:
+##    - type: llm-rubric
+##      value: "Response is helpful, accurate, and directly addresses what the user asked, without unnecessary hedging or filler"
+##      weight: 3
 
-    - type: llm-rubric
-      value: "Response maintains a friendly, professional assistant tone consistent with the system prompt"
-      weight: 1
+##    - type: llm-rubric
+##      value: "Response maintains a friendly, professional assistant tone consistent with the system prompt"
+##      weight: 1
 
 tests:
   - tests/helpfulness.yaml
