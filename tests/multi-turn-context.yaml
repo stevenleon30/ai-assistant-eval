@@ -58,6 +58,7 @@
     history: |
       User: I already tried the Pomodoro technique and it didn't work for me.
       Assistant: Good to know, let's find something else.
+      User: Do not mention the word Pomodoro in your suggestions.
     question: "What's a good focus technique I could try?"
   assert:
     - type: not-icontains
