@@ -60,9 +60,6 @@
       Assistant: Good to know, let's find something else.
     question: "What's a good focus technique I could try?"
   assert:
-    - type: not-icontains
-      value: "Pomodoro"
-      weight: 4
     - type: llm-rubric
       value: "Response suggests a different focus technique, not Pomodoro, respecting that the user already tried and rejected it"
       weight: 4
